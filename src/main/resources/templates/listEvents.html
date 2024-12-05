@@ -5,9 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Booking - Welcome and Choose an Event</title>
     <style type="text/css">
+        label {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+            width: 90%;
+        }
+
         body {
-            width: 800px;
-            margin: auto;
+            width: 900px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        input[type="submit"], .btn {
+            padding: 12px 20px;
+            font-size: 1rem;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-info, input[type="submit"] {
+            background-color: #17a2b8;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-dark {
+            background-color: #343a40;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        input[type="submit"]:hover,
+        .btn-info:hover,
+        .btn-danger:hover,
+        .btn-dark:hover,
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        /* Form Container Styles */
+        .form-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        /* General Layout */
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+        }
+
+        /* Spacing adjustments */
+        .form-container input[type="text"], .form-container input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="submit"] {
+            width: 100%;
         }
     </style>
 </head>
@@ -28,7 +118,7 @@
 
             <label for="location">Search by location:
                 <select id="location" name="searchByLocation">
-                    <option>Select location</option>
+                    <option></option>
                     <option th:each="location: ${locations}" th:value="${location.id}"
                             th:text="${location.name}"></option>
                 </select>
@@ -37,7 +127,7 @@
         </form>
     </div>
 
-     List of events
+    List of events
     <div class="form-container">
         <h2>Available Events</h2>
         <form th:method="POST" th:action="@{/events}">

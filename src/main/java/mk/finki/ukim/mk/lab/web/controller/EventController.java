@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +30,7 @@ public class EventController {
 
     @GetMapping
     public String getEventsPage(@RequestParam(required = false) String error, HttpServletRequest req, Model model) {
-        List<Event> eventList = new ArrayList<>();
+        List<Event> eventList = eventService.listAll();
         model.addAttribute("events", eventList);
         List<Location> locations = locationService.findAll();
         model.addAttribute("locations", locations);
@@ -40,7 +39,7 @@ public class EventController {
         String searchByLocation = req.getParameter("searchByLocation");
         double rating;
 
-        if (searchByName != null && searchByRating != null && !searchByName.isEmpty() && !searchByRating.isEmpty()) {
+        if (searchByName != null && searchByRating != null && !searchByName.isEmpty() && !searchByRating.isEmpty() && searchByLocation!=null && !searchByLocation.isEmpty()) {
             rating = Integer.parseInt(searchByRating);
             eventList = eventList.stream().filter(event -> event.getName().toLowerCase().contains(searchByName.toLowerCase())
                             && event.getPopularityScore() >= rating)

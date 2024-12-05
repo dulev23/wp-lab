@@ -2,11 +2,11 @@ version: "3"
 services:
   wp-db:
     image: "postgres"
-    container_name: "wplab_events"
+    container_name: "wplab-events"
     environment:
       - POSTGRES_USER=wplab
       - POSTGRES_PASSWORD=wplab123
-      - POSTGRES_DB=events
+      - POSTGRES_DB=eventsdatabase
 
     ports:
       - "5432:5432"
