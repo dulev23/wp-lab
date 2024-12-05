@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking - Welcome and Choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+
+<main>
+    <div class="form-container">
+        <h2>Search for Events</h2>
+        <form th:method="GET" th:action="@{/events}">
+            <label for="searchByName">Search by Name:</label>
+            <input type="text" id="searchByName" name="searchByName" placeholder="Search by name">
+
+            <label for="searchRating">Search by Rating:</label>
+            <input type="number" id="searchRating" name="searchByRating" min="0" max="10" placeholder="Rating (0-10)">
+
+            <label for="location">Search by location:
+                <select id="location" name="searchByLocation">
+                    <option>Select location</option>
+                    <option th:each="location: ${locations}" th:value="${location.id}"
+                            th:text="${location.name}"></option>
+                </select>
+            </label>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+     List of events
+    <div class="form-container">
+        <h2>Available Events</h2>
+        <form th:method="POST" th:action="@{/events}">
+            <h3>Choose an event:</h3>
+            <div th:each="event : ${events}">
+                <div style="margin: 9px; width: 100%">
+                    <label>
+                        <input type="radio" name="eventName" th:value="${event.name}" required>
+                        Event: <span th:text="${event.name}">EventName</span>,
+                        Description: <span th:text="${event.description}">Description</span>,
+                        Rating: <span th:text="${event.popularityScore}">0.0</span>,
+                        <span th:text="${event.location != null ? event.location.name : 'No location available'}">Location</span>
+                    </label>
+
+                    <!-- Edit Event Link -->
+                    <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}" class="btn btn-sm btn-info ml-2">Edit</a>
+
+                    <!-- Delete Event Link -->
+                    <a th:href="@{'/events/delete-form/{id}' (id=${event.id})}" class="btn btn-sm btn-danger ml-2">Delete</a>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- Add New Event Link -->
+            <a th:href="@{/events/add-form}" class="btn btn-block btn-dark">Add Event</a>
+            <br><br>
+
+            <h2>Choose number of tickets:</h2>
+            <label>
+                <input type="number" name="numberOfTickets" min="1" max="10" required>
+            </label>
+            <br><br>
+
+            <h3>User name:</h3>
+            <label for="attendee">
+                <input type="text" id="attendee" name="attendeeName" placeholder="Name" required>
+            </label>
+
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
