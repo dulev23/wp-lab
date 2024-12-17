@@ -8,6 +8,7 @@ import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class EventController {
         String searchByLocation = req.getParameter("searchByLocation");
         double rating;
 
-        if (searchByName != null && searchByRating != null && !searchByName.isEmpty() && !searchByRating.isEmpty() && searchByLocation!=null && !searchByLocation.isEmpty()) {
+        if (searchByName != null && searchByRating != null && !searchByName.isEmpty() && !searchByRating.isEmpty() && searchByLocation != null && !searchByLocation.isEmpty()) {
             rating = Integer.parseInt(searchByRating);
             eventList = eventList.stream().filter(event -> event.getName().toLowerCase().contains(searchByName.toLowerCase())
                             && event.getPopularityScore() >= rating)
@@ -60,6 +61,7 @@ public class EventController {
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAddEventPage(Model model) {
         model.addAttribute("locations", locationService.findAll());
         model.addAttribute("events", eventService.listAll());
@@ -67,6 +69,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveEvent(@RequestParam(required = false) Long id,
                             @RequestParam String eventName,
                             @RequestParam String description,
@@ -81,6 +84,7 @@ public class EventController {
     }
 
     @GetMapping("/edit-form/{Id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getEditEventForm(@PathVariable Long Id, Model model) {
         Optional<Event> findEvent = eventService.findById(Id);
         if (findEvent.isPresent()) {
@@ -96,6 +100,7 @@ public class EventController {
     }
 
     @GetMapping("/delete-form/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showDeleteFormPage(@PathVariable Long id, Model model) {
         Event event = eventService.findById(id).get();
         model.addAttribute("locations", locationService.findAll());
@@ -104,6 +109,7 @@ public class EventController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id) {
         eventService.deleteById(id);
         return "redirect:/events";

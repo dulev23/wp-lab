@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,17 +143,24 @@
                     </label>
 
                     <!-- Edit Event Link -->
-                    <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}" class="btn btn-sm btn-info ml-2">Edit</a>
+                    <th:block sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/events/edit-form/{id}' (id=${event.id})}"
+                           class="btn btn-sm btn-info ml-2">Edit</a>
+                    </th:block>
 
                     <!-- Delete Event Link -->
-                    <a th:href="@{'/events/delete-form/{id}' (id=${event.id})}" class="btn btn-sm btn-danger ml-2">Delete</a>
+                    <th:block sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/events/delete-form/{id}' (id=${event.id})}" class="btn btn-sm btn-danger ml-2">Delete</a>
+                    </th:block>
                 </div>
             </div>
 
             <br>
 
             <!-- Add New Event Link -->
-            <a th:href="@{/events/add-form}" class="btn btn-block btn-dark">Add Event</a>
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/events/add-form}" class="btn btn-block btn-dark">Add Event</a>
+            </th:block>
             <br><br>
 
             <h2>Choose number of tickets:</h2>
